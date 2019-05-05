@@ -96,11 +96,12 @@ São compostos por múltiplos monoalfabéticos.
 
 ### Cifrador de Vigenère
 
-O mais simples dos cifradores. A ideia é que, dada uma palavra-chave qualquer,
-você usa **o índice** de cada letra como **deslocamento** como uma Cifra de
-César. Ou seja, você vai aplicar uma Cifra de César diferente para cada letra
-da entrada. Claro, para que a chave tenha o mesmo tamanho do texto, basta
-repetir a palavra-chave até que as duas tenham o mesmo tamanho.
+O mais simples dos cifradores polialfabéticos. A ideia é que, dada uma
+palavra-chave qualquer, você usa **o índice** de cada letra como
+**deslocamento** como uma Cifra de César. Ou seja, você vai aplicar uma Cifra
+de César diferente para cada letra da entrada. Claro, para que a chave tenha o
+mesmo tamanho do texto, basta repetir a palavra-chave até que as duas tenham o
+mesmo tamanho.
 
 Exemplo de cifragem:
 - Palavra-Chave: secretofmana
