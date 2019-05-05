@@ -1,8 +1,14 @@
 Cifradores
 ==========
 
-Cifrador de César
------------------
+Cifradores Monoalfabéticos
+--------------------------
+
+São cifradores que possuem um mapeamento simples de LETRAS -> LETRAS. Exemplo
+de mapeamento genérico: [Ver teste de
+implementação](https://github.com/JPTIZ/ciphers-sec/blob/master/tests/test_answers.py#L22).
+
+### Cifrador de César
 
 Trivial: apenas se aplica o deslicamento de letras. Por exemplo:
 
@@ -13,23 +19,14 @@ Trivial: apenas se aplica o deslicamento de letras. Por exemplo:
 Implementação:
 [Exemplo](https://github.com/JPTIZ/ciphers-sec/blob/master/ciphers/caesar.py)
 
-Cifrador Monoalfabético
------------------------
-
-Também trivial: apenas um mapeamento Alfabeto -> Alfabeto.
-
-Exemplo: [Ver teste de
-implementação](https://github.com/JPTIZ/ciphers-sec/blob/master/tests/test_answers.py#L22)
-
-Playfair
---------
+### Playfair
 
 Utiliza uma matriz 5x5 para cifrar um texto.
 
 [Ver
 Implementação](https://github.com/JPTIZ/ciphers-sec/blob/master/ciphers/playfair.py).
 
-### Gerando a matriz
+#### Gerando a matriz
 
 1. Considere que I e J são a mesma letra;
 2. Escolha uma palavra secreta;
@@ -52,7 +49,7 @@ Exemplo:
 | 4 | O | P | Q | R | U |
 | 5 | V | W | X | Y | Z |
 
-### Cifrando um texto
+#### Cifrando um texto
 
 - Para cada par de caracteres da entrada:
     - Se o par contém **os mesmos caracteres** (ex: "XX", "AA"),
@@ -91,3 +88,56 @@ Exemplo: crifrando o texto "balloon" com a matriz gerada por "TESTE":
 - Fim da entrada.
 
 **Resultado: "TBQSIQUI".**
+
+Cifradores Polialfabéticos
+--------------------------
+
+São compostos por múltiplos monoalfabéticos.
+
+### Cifrador de Vigenère
+
+O mais simples dos cifradores. A ideia é que, dada uma palavra-chave qualquer,
+você usa **o índice** de cada letra como **deslocamento** como uma Cifra de
+César. Ou seja, você vai aplicar uma Cifra de César diferente para cada letra
+da entrada. Claro, para que a chave tenha o mesmo tamanho do texto, basta
+repetir a palavra-chave até que as duas tenham o mesmo tamanho.
+
+Exemplo de cifragem:
+- Palavra-Chave: secretofmana
+- Texto original: The hero shall wield the sword.
+
+Vendo os índices de cada letra no alfabeto:
+
+| Letra | Índice no alfabeto |
+|-------|--------------------|
+| s     | 19                 |
+| e     | 5                  |
+| c     | 3                  |
+| r     | 18                 |
+| e     | 5                  |
+| t     | 20                 |
+| o     | 15                 |
+| f     | 6                  |
+| m     | 13                 |
+| a     | 1                  |
+| n     | 14                 |
+| a     | 1                  |
+
+Encaixando cada letra da chave com cada letra do texto original (e repetindo a
+chave até os tamanhos baterem):
+
+| | | | | | | | | | | | | | | | | | | | | | | | | |
+|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|-|
+|s|e|c|r|e|t|o|f|m|a|n|a|s|e|c|r|e|t|o|f|m|a|n|a|s|
+|T|h|e|h|e|r|o|s|h|a|l|l|w|i|e|l|d|t|h|e|s|w|o|r|d|
+
+Perceba, por exemplo, que a letra "T" (do texto original) está na mesma posição
+de "s" na chave repetida. Isso significa que a letra "T" vai ser substituída
+conforme uma cifra de César de 19 deslocamentos (pois "s" é a 19ª letra do
+alfabeto). Já a letra "h" está na mesma posição de "e" na chave, então "h" vai
+ser substituída conforme uma Cifra de César de 5 deslocamentos (pois "e" é a 5ª
+letra do alfabeto), virando a letra "M". Perceba que o fato de que cada letra
+da chave é um monoalfabético diferente é exatamente o que caracteriza Vigenère
+como sendo um polialfabético.
+
+No final, o texto cifrado vai virar ser "MMH MYGU TVBEQ ONYAJ UVF XZGWX".
